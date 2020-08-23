@@ -38,6 +38,39 @@ def upload_to_s3(file_name):
         return custom_responses.post_response()
 
 
+@app.route('/sms', methods=['GET'], cors=cors_config)
+def sms_message():
+    body = app.current_request.json_body
+    sns = boto3.client('sns')
+    sns.publish(
+        Subject='OpenEduGT',
+        PhoneNumber=['number'],
+        Message=body['message']
+    )
+    return custom_responses.get_base_res()
+
+
+@app.route('/textract', methods=['GET'], cors=cors_config)
+def extract_text():
+    textract = boto3.client('textract')
+    response = textract.detect_document_text(
+        Document={
+            'S3Object': {
+                'Bucket': BUCKET_NAME,
+                'Name': 'test.jpg'
+            }
+        })
+
+    plain_str = ''
+    for item in response["Blocks"]:
+        if item["BlockType"] == "LINE":
+            plain_str = plain_str + item["Text"]
+
+    print(plain_str[:160])
+
+    return custom_responses.get_base_res()
+
+
 def get_s3_resources():
     s3_client = boto3.client('s3')
     s3 = boto3.resource('s3')
