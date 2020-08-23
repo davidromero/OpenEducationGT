@@ -1,6 +1,7 @@
 */__pycache__/
 .idea/
 */venv/
+lambda_services/document_storage/venv/
 */.chalice/deployments/
 */chalicelib/credentials/
 *.pyc
