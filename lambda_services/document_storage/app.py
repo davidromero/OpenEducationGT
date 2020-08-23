@@ -1,29 +1,46 @@
+import logging
+
+import boto3
 from chalice import Chalice
+from chalicelib import custom_responses
+from chalicelib.config import BUCKET_NAME, BUCKET_PREFIX, cors_config
 
 app = Chalice(app_name='document_storage')
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+CONTENT_TYPES = ['image/jpeg', 'image/jpg', 'image/png']
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    return {'hello': 'world'}
+    return custom_responses.get_base_res()
 
 
-# The view function above will return {"hello": "world"}
-# whenever you make an HTTP GET request to '/'.
-#
-# Here are a few more examples:
-#
-# @app.route('/hello/{name}')
-# def hello_name(name):
-#    # '/hello/james' -> {"hello": "james"}
-#    return {'hello': name}
-#
-# @app.route('/users', methods=['POST'])
-# def create_user():
-#     # This is the JSON body the user sent in their POST request.
-#     user_as_json = app.current_request.json_body
-#     # We'll echo the json body back to the user in a 'user' key.
-#     return {'user': user_as_json}
-#
-# See the README documentation for more examples.
-#
+@app.route('/upload/{file_name}', methods=['PUT'], content_types=CONTENT_TYPES, cors=cors_config)
+def upload_to_s3(file_name):
+    body = app.current_request.raw_body
+    logger.info('Uploading document')
+    tmp_file_name = '/tmp/' + file_name
+    with open(tmp_file_name, 'wb') as tmp_file:
+        tmp_file.write(body)
+
+    s3_client, bucket = get_s3_resources()
+    s3_client.upload_file(tmp_file_name, BUCKET_NAME, file_name)
+
+    objs = list(bucket.objects.filter(Prefix=file_name))
+    if len(objs) > 0 and objs[0].key == file_name:
+        public_url = f'{BUCKET_PREFIX}/{BUCKET_NAME}/{file_name}'
+        logger.info(f'Document successfully saved in {public_url}')
+        return custom_responses.post_response(public_url)
+    else:
+        logger.error('Document could not be saved')
+        return custom_responses.post_response()
+
+
+def get_s3_resources():
+    s3_client = boto3.client('s3')
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(BUCKET_NAME)
+
+    return s3_client, bucket
