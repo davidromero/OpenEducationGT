@@ -30,6 +30,7 @@ const Dashboard = (props) => {
     <div className={"page-container"}>
       <Paper className={"simple-paper"} elevation={15} square={false}>
         <p>Nombre del Archivo: {document}</p>
+        <p>Presione la imagen para subir una foto del Documento</p>
         <label htmlFor="upload-button">
             <img style={{objectFit: "cover", width: "250px", height: "320px"}}
                  src={image ? image : "https://s3.amazonaws.com/pixsell.opendatagt.documentstorage/" + document} alt={"profile"}
