@@ -4,7 +4,7 @@ import boto3
 from chalice import Chalice
 from chalicelib import custom_responses
 from chalicelib.config import BUCKET_NAME, BUCKET_PREFIX, SECRET_KEY, cors_config
-from chalicelib.aws_api import does_file_exist_bucket, upload_document_s3, extract_text_textract
+from chalicelib.aws_api import file_exist_bucket, upload_document_s3, extract_text_textract
 
 app = Chalice(app_name='document_storage')
 logger = logging.getLogger()
@@ -29,7 +29,7 @@ def upload_to_s3(file_name):
         return custom_responses.post_response(public_url)
     else:
         logger.error('Document could not be saved')
-        return custom_responses.post_response()
+        return custom_responses.post_response(None)
 
 
 # @app.route('/sms', methods=['GET'], cors=cors_config)
@@ -50,7 +50,7 @@ def upload_to_s3(file_name):
 @app.route('/textract', methods=['POST'], cors=cors_config)
 def extract_text():
     body = app.current_request.json_body
-    if does_file_exist_bucket(body['document_name']):
+    if file_exist_bucket(body['document_name']):
         plain_str = extract_text_textract(body)
         return custom_responses.post_response(plain_str[:320])
     else:

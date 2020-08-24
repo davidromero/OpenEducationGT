@@ -20,7 +20,7 @@ def extract_text_textract(body):
     return plain_str
 
 
-def does_file_exist_bucket(filename):
+def file_exist_bucket(filename):
     s3 = boto3.client('s3')
     try:
         s3.head_object(Bucket=BUCKET_NAME, Key=filename)

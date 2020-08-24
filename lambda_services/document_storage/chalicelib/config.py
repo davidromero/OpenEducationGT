@@ -7,5 +7,5 @@ BUCKET_PREFIX = environ.get('BUCKET_PREFIX')
 SECRET_KEY = environ.get('SECRET_KEY')
 
 cors_config = CORSConfig(
-    allow_origin='*'
+    allow_origin='*',
 )
