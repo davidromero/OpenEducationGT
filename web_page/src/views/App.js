@@ -5,8 +5,8 @@ import {BrowserRouter} from "react-router-dom";
 
 const theme = createMuiTheme({
   palette: {
-    primary: {main: '#1595BD', contrastText: '#FAFAFA'},
-    secondary: {main: '#3F51B5'}
+    primary: {main: '#bcbdf6', contrastText: '#FAFAFA'},
+    secondary: {main: '#bcbdf6'}
   },
 });
 
