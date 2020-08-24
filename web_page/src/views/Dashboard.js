@@ -29,8 +29,8 @@ const Dashboard = (props) => {
   return (
     <div className={"page-container"}>
       <Paper className={"simple-paper"} elevation={15} square={false}>
-        <p>Nombre del Archivo: {document}</p>
-        <p>Presione la imagen para subir una foto del Documento</p>
+        <p><b>Nombre del Archivo:</b> {document}</p>
+        <p><i>Presione la imagen para subir una foto del Documento</i></p>
         <label htmlFor="upload-button">
             <img style={{objectFit: "cover", width: "250px", height: "320px"}}
                  src={image ? image : "https://s3.amazonaws.com/pixsell.opendatagt.documentstorage/" + document} alt={"profile"}
@@ -39,7 +39,7 @@ const Dashboard = (props) => {
                    style={{display: "none"}}/>
         </label>
         {document ? <ProcessDocumentButton document={document} setExtractedText={setExtractedText} setExtractingData={setExtractingData}/> : <div></div>}
-        <p>Texto Analizado: </p> {extractedText ? extractedText : extractingData ? <p>Cargando ...</p> : <div></div>}
+        <p><b>Texto Analizado: </b></p> {extractedText ? extractedText : extractingData ? <p>Cargando ...</p> : <div></div>}
 
         <button className="mid-paper-button">Enviar Texto (SMS)</button>
       </Paper>
@@ -57,11 +57,13 @@ const ProcessDocumentButton = (props) => {
         axios.post("https://kxevtgrjyb.execute-api.us-east-1.amazonaws.com/api/textract",
         documentModel(document), {headers: {'Content-Type': 'application/json'}})
         .then((res) => {
+            alert(res.data.payload);
             setExtractedText(res.data.payload);
             console.log(res.data.payload);
             setExtractingData(false);
         })
           .catch((error) => {
+              alert(error);
               console.log(error);
               setExtractingData(false);
         });
