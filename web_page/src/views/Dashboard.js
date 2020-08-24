@@ -65,7 +65,7 @@ const ProcessSMSButton = (props) => {
 
     const processSMS = () => {
         console.log(messageModel(phoneNumber, extractedText));
-        axios.post("https://kxevtgrjyb.execute-api.us-east-1.amazonaws.com/api/sms",
+        axios.post("https://04p2juq51c.execute-api.us-east-1.amazonaws.com/api/sms",
         messageModel(phoneNumber, extractedText), {headers: {'Content-Type': 'application/json'}})
         .then((res) => {
             alert("El mensaje ha sido enviado, porfavor espere mientras en mensaje es enviado");

@@ -38,10 +38,13 @@ def sms_message():
     if body['secret_key'] == SECRET_KEY:
         sns = boto3.client('sns')
         sns.publish(
-           Subject='OpenEduGT',
-           PhoneNumber=body['number'],
-           Message=body['message'][:160]
+            Subject='OpenEduGT',
+            PhoneNumber="+502" + body['number'],
+            Message=body['message'][:160],
+            MessageAttributes = {'AWS.SNS.SMS.SenderID': {'DataType': 'String', 'StringValue': 'OpenEduGT'},
+                             'AWS.SNS.SMS.SMSType': {'DataType': 'String', 'StringValue': 'Promotional'}}
         )
+        print('Sending message to: ' + '+502' + body['number'] + 'message: ' + body['message'][:160])
         return custom_responses.post_response(body['message'])
     else:
         return custom_responses.post_response(None)
