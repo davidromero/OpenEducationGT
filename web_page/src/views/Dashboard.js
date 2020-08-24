@@ -28,18 +28,16 @@ const Dashboard = (props) => {
 
   return (
     <div className={"page-container"}>
-      <Paper className={"simple-paper"} elevation={2} square={false}>
+      <Paper className={"simple-paper"} elevation={15} square={false}>
         <p>Nombre del Archivo: {document}</p>
         <label htmlFor="upload-button">
-            <img style={{objectFit: "cover", width: "200px", height: "280px"}}
+            <img style={{objectFit: "cover", width: "250px", height: "320px"}}
                  src={image ? image : "https://s3.amazonaws.com/pixsell.opendatagt.documentstorage/" + document} alt={"profile"}
                  onError={() => {setImage(placeholder);}}/>
             <input type="file" id="upload-button" onChange={handleImage}
                    style={{display: "none"}}/>
         </label>
-        <div style={{width: "200px"}}>
-            {document ? <ProcessDocumentButton document={document} setExtractedText={setExtractedText} setExtractingData={setExtractingData}/> : <div></div>}
-        </div>
+        {document ? <ProcessDocumentButton document={document} setExtractedText={setExtractedText} setExtractingData={setExtractingData}/> : <div></div>}
         <p>Texto Analizado: </p> {extractedText ? extractedText : extractingData ? <p>Cargando ...</p> : <div></div>}
 
         <button className="mid-paper-button">Enviar Texto (SMS)</button>
