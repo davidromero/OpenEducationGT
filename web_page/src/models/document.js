@@ -3,7 +3,7 @@ const documentTemplate = {
   };
 
 const documentModel = (name) => {
-    documentTemplate.document_name = name
+    documentTemplate.document_name = name;
     return JSON.stringify(documentTemplate);
 };  
 

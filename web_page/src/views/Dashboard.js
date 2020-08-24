@@ -1,15 +1,16 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import placeholder from "../assets/img/profile_placeholder.png";
 import axios from "axios";
-import {Paper} from "@material-ui/core";
+import {Paper, TextField} from "@material-ui/core";
 import "./styles/PagesStyle.css";
-import {documentModel} from "../models/document"
+import {documentModel} from "../models/document";
 
 const Dashboard = (props) => {
     const [image, setImage] = useState();
     const [document, setDocument] = useState();
     const [extractedText, setExtractedText] = useState("");
     const [extractingData, setExtractingData] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     const handleImage = e => {
         if (e.target.files[0] !== undefined){
@@ -23,7 +24,16 @@ const Dashboard = (props) => {
 
                 });
         }
-    };  
+    };
+
+    useEffect(() => {
+        setExtractedText(null);
+        setExtractingData(false);
+      }, [document]);
+    
+    const handleChange = (e) => {
+        setPhoneNumber(e.target.value);
+    };    
 
 
   return (
@@ -40,8 +50,9 @@ const Dashboard = (props) => {
         </label>
         {document ? <ProcessDocumentButton document={document} setExtractedText={setExtractedText} setExtractingData={setExtractingData}/> : <div></div>}
         <p><b>Texto Analizado: </b></p> {extractedText ? extractedText : extractingData ? <p>Cargando ...</p> : <div></div>}
-
-        <button className="mid-paper-button">Enviar Texto (SMS)</button>
+        {document && extractedText ? <TextField style={{margin: "8px", width: "180px"}} name="phone"
+                   label="Numero de Telefono" onChange={handleChange} value={phoneNumber || ""}/> : <div></div>}
+        {document && extractedText ? <button className="mid-paper-button">Enviar Texto (SMS)</button> : <div></div>}
       </Paper>
     </div>
   );
@@ -57,14 +68,13 @@ const ProcessDocumentButton = (props) => {
         axios.post("https://kxevtgrjyb.execute-api.us-east-1.amazonaws.com/api/textract",
         documentModel(document), {headers: {'Content-Type': 'application/json'}})
         .then((res) => {
-            alert(res.data.payload);
             setExtractedText(res.data.payload);
             console.log(res.data.payload);
             setExtractingData(false);
         })
           .catch((error) => {
               alert(error);
-              console.log(error);
+              console.log("Imagen No puede ser analizada, las letras deben estar claras");
               setExtractingData(false);
         });
     }; 

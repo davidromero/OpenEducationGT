@@ -32,19 +32,20 @@ def upload_to_s3(file_name):
         return custom_responses.post_response(None)
 
 
-# @app.route('/sms', methods=['GET'], cors=cors_config)
-# def sms_message():
-#    body = app.current_request.json_body
-#    if body['secret_key'] == SECRET_KEY:
-#        sns = boto3.client('sns')
-#        sns.publish(
-#            Subject='OpenEduGT',
-#            PhoneNumber=['number'],
-#            Message=body['message']
-#        )
-#        return custom_responses.get_base_res()
-#    else:
-#        return custom_responses.post_fail()
+@app.route('/sms', methods=['POST'], cors=cors_config)
+def sms_message():
+    body = app.current_request.json_body
+    if body['secret_key'] == SECRET_KEY:
+        print("SEND SMS")
+        # sns = boto3.client('sns')
+        # sns.publish(
+        #    Subject='OpenEduGT',
+        #    PhoneNumber=['number'],
+        #    Message=body['message']
+        # )
+        return custom_responses.post_response(body['message'])
+    else:
+        return custom_responses.post_response(None)
 
 
 @app.route('/textract', methods=['POST'], cors=cors_config)
@@ -55,4 +56,3 @@ def extract_text():
         return custom_responses.post_response(plain_str[:160])
     else:
         return custom_responses.post_response(None)
-

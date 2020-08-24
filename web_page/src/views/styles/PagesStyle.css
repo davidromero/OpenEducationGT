@@ -11,11 +11,7 @@
   flex-flow: column wrap;
 }
 
-/*Calendar*/
-.calendar{
-  height: 90vh;
-  width: 100%;
-}
+
 .contact-container {
   min-width: 220px;
   margin: 2px;
@@ -124,93 +120,4 @@
   align-items: center
 }
 
-/*Modal*/
-.modal-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-.modal-button {
-  font-size: 1.2em;
-  color: white;
-  background-color: palevioletred;
-  padding: 8px;
-  margin: 4px;
-  border-radius: 10px;
-  outline: none;
-}
 
-/*TreatmentMenu*/
-.lateral-paper {
-  width: 98%;
-  max-width: 385px;
-  display: table-cell;
-  text-align: center;
-  padding: 12px;
-  margin: 4px;
-  float: left;
-}
-.side-content {
-  display: table-cell;
-}
-.menu-container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-}
-.patient-filter {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  justify-content: right;
-}
-.menu-button {
-  width: 285px;
-  min-height: 120px;
-  margin: 6px;
-  padding: 35px 0;
-  text-align: center;
-}
-.treatment-item {
-  padding: 8px;
-}
-.finish-treatment-button{
-  height: 40px;
-  font-size: 0.9em;
-  background-color: white;
-  border: 2px solid rgb(21, 149, 189);
-  border-radius: 10px;
-  outline: none;
-  margin: 12px;
-}
-.print-budget-button{
-  height: 40px;
-  font-size: 0.9em;
-  background-color: white;
-  border: 2px solid rgb(21, 149, 189);
-  border-radius: 10px;
-  outline: none;
-  margin: 12px;
-}
-.remove-treatment-button{
-  width: 30px;
-  height: 30px;
-  margin: 12px;
-  border-radius: 50px;
-  background: white;
-  font-size: 1.2em;
-  outline: none;
-}
-.wide-textfield{
-  display: flex;
-  flex-direction: column;
-}
-.wide-select{
-  display: block;
-  flex-direction: row;
-  text-align: left;
-}

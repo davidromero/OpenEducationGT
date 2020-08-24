@@ -7,7 +7,7 @@ import {mainListItems} from "./DrawerIcons";
 import styles from "./styles/NavBarStyle";
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 
 const NavBar = (props) => {
   const {searchChange} = props;
@@ -38,6 +38,7 @@ const NavBar = (props) => {
             <MenuIcon/>
           </IconButton>
           <SearchBar classes={classes} onChange={searchChange}/>
+          <h4>SMS Disponibles 2</h4>
           <SideMenu classes={classes}/>
         </Toolbar>
       </AppBar>
@@ -48,30 +49,30 @@ const NavBar = (props) => {
 };
 
 const SearchBar = (props) => {
-  const {onChange} = props;
-  const {classes} = props;
-  let location = useLocation();
-
-  return ((location.pathname === "/patients") || (location.pathname === "/budgetlist")) ?
-  (
-    <div className={classes.content}>
-      <div className={classes.searchBar}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
+    const {onChange} = props;
+    const {classes} = props;
+    let location = useLocation();
+  
+    return ((location.pathname === "/documents")) ?
+    (
+      <div className={classes.content}>
+        <div className={classes.searchBar}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <InputBase
+            placeholder="Buscar…"
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            onChange={onChange}
+          />
         </div>
-        <InputBase
-          placeholder="Buscar…"
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
-          onChange={onChange}
-        />
       </div>
-    </div>
-  ) :
-    <div className={classes.content}/>;
-};
+    ) :
+      <div className={classes.content}/>;
+  };
 
 const SideMenu = (props) => {
   const {classes} = props;
