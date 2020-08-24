@@ -52,7 +52,7 @@ def extract_text():
     body = app.current_request.json_body
     if file_exist_bucket(body['document_name']):
         plain_str = extract_text_textract(body)
-        return custom_responses.post_response(plain_str[:320])
+        return custom_responses.post_response(plain_str[:160])
     else:
         return custom_responses.post_response(None)
 
