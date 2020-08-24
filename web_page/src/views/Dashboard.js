@@ -42,7 +42,7 @@ const Dashboard = (props) => {
         </div>
         <p>Texto Analizado: </p> {extractedText ? extractedText : extractingData ? <p>Cargando ...</p> : <div></div>}
 
-        <button className="mid-paper-button">Enviar SMS Texto</button>
+        <button className="mid-paper-button">Enviar Texto (SMS)</button>
       </Paper>
     </div>
   );
