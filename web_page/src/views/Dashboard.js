@@ -41,6 +41,8 @@ const Dashboard = (props) => {
             {document ? <ProcessDocumentButton document={document} setExtractedText={setExtractedText} setExtractingData={setExtractingData}/> : <div></div>}
         </div>
         <p>Texto Analizado: </p> {extractedText ? extractedText : extractingData ? <p>Cargando ...</p> : <div></div>}
+
+        <button className="mid-paper-button">Enviar Texto</button>
       </Paper>
     </div>
   );
