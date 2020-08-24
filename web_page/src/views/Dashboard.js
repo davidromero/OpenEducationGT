@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import placeholder from "../assets/img/profile_placeholder.png";
 import axios from "axios";
 import {Paper} from "@material-ui/core";
@@ -9,6 +9,7 @@ const Dashboard = (props) => {
     const [image, setImage] = useState();
     const [document, setDocument] = useState();
     const [extractedText, setExtractedText] = useState("");
+    const [extractingData, setExtractingData] = useState(false);
 
     const handleImage = e => {
         if (e.target.files[0] !== undefined){
@@ -37,8 +38,9 @@ const Dashboard = (props) => {
                    style={{display: "none"}}/>
         </label>
         <div style={{width: "200px"}}>
-            {document ? <ProcessDocumentButton document={document}/> : <div></div>}
+            {document ? <ProcessDocumentButton document={document} setExtractedText={setExtractedText} setExtractingData={setExtractingData}/> : <div></div>}
         </div>
+        <p>Texto Analizado: </p> {extractedText ? extractedText : extractingData ? <p>Cargando ...</p> : <div></div>}
       </Paper>
     </div>
   );
@@ -46,15 +48,21 @@ const Dashboard = (props) => {
 
 const ProcessDocumentButton = (props) => {
     const {document} = props;
+    const {setExtractedText} = props;
+    const {setExtractingData} = props;
 
     const processDocument = () => {
+        setExtractingData(true);
         axios.post("https://kxevtgrjyb.execute-api.us-east-1.amazonaws.com/api/textract",
         documentModel(document), {headers: {'Content-Type': 'application/json'}})
         .then((res) => {
-            console.log(res);
+            setExtractedText(res.data.payload);
+            console.log(res.data.payload);
+            setExtractingData(false);
         })
           .catch((error) => {
               console.log(error);
+              setExtractingData(false);
         });
     }; 
 
