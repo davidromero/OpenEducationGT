@@ -4,6 +4,7 @@ import axios from "axios";
 import {Paper, TextField} from "@material-ui/core";
 import "./styles/PagesStyle.css";
 import {documentModel} from "../models/document";
+import {messageModel} from "../models/message";
 
 const Dashboard = (props) => {
     const [image, setImage] = useState();
@@ -51,11 +52,34 @@ const Dashboard = (props) => {
         {document ? <ProcessDocumentButton document={document} setExtractedText={setExtractedText} setExtractingData={setExtractingData}/> : <div></div>}
         <p><b>Texto Analizado: </b></p> {extractedText ? extractedText : extractingData ? <p>Cargando ...</p> : <div></div>}
         {document && extractedText ? <TextField style={{margin: "8px", width: "180px"}} name="phone"
-                   label="Numero de Telefono" onChange={handleChange} value={phoneNumber || ""}/> : <div></div>}
-        {document && extractedText ? <button className="mid-paper-button">Enviar Texto (SMS)</button> : <div></div>}
+                   label="Numero de Telefono" type="number" onChange={handleChange} value={phoneNumber || ""}/> : <div></div>}
+        {document && extractedText ? <ProcessSMSButton extractedText={extractedText} phoneNumber={phoneNumber}/> : <div></div>}
       </Paper>
     </div>
   );
+};
+
+const ProcessSMSButton = (props) => {
+    const {extractedText} = props;
+    const {phoneNumber} = props;
+
+    const processSMS = () => {
+        console.log(messageModel(phoneNumber, extractedText));
+        axios.post("https://kxevtgrjyb.execute-api.us-east-1.amazonaws.com/api/sms",
+        messageModel(phoneNumber, extractedText), {headers: {'Content-Type': 'application/json'}})
+        .then((res) => {
+            alert("El mensaje ha sido enviado, porfavor espere mientras en mensaje es enviado");
+            console.log(res.data.payload);
+            
+        })
+          .catch((error) => {
+              alert("El mensaje no pudo ser enviado");
+        });
+    };
+
+    return(
+        <button className="mid-paper-button" onClick={processSMS}>Enviar Texto (SMS)</button>
+    );
 };
 
 const ProcessDocumentButton = (props) => {

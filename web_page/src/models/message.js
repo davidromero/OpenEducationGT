@@ -8,7 +8,7 @@ const messageTemplate = {
 const messageModel = (number, message) => {
     messageTemplate.number = number;
     messageTemplate.message = message;
-    return JSON.stringify(messageTemplates);
+    return JSON.stringify(messageTemplate);
 };  
 
 export {messageTemplate, messageModel};  

@@ -36,13 +36,12 @@ def upload_to_s3(file_name):
 def sms_message():
     body = app.current_request.json_body
     if body['secret_key'] == SECRET_KEY:
-        print("SEND SMS")
-        # sns = boto3.client('sns')
-        # sns.publish(
-        #    Subject='OpenEduGT',
-        #    PhoneNumber=['number'],
-        #    Message=body['message']
-        # )
+        sns = boto3.client('sns')
+        sns.publish(
+           Subject='OpenEduGT',
+           PhoneNumber=body['number'],
+           Message=body['message'][:160]
+        )
         return custom_responses.post_response(body['message'])
     else:
         return custom_responses.post_response(None)
@@ -53,6 +52,6 @@ def extract_text():
     body = app.current_request.json_body
     if file_exist_bucket(body['document_name']):
         plain_str = extract_text_textract(body)
-        return custom_responses.post_response(plain_str[:160])
+        return custom_responses.post_response(plain_str)
     else:
         return custom_responses.post_response(None)
