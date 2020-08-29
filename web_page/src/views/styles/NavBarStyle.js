@@ -1,4 +1,4 @@
-const drawerWidth = 240;
+const drawerWidth = 140;
 
 export default (theme) => ({
   appBar: {
